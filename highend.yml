@@ -1,0 +1,24 @@
+- hosts: all
+  become: yes
+
+  vars:
+    rvm1_rubies:
+      - 'ruby-2.3.1'
+    nodejs_version: "4.4"
+
+  tasks:
+    # for debian / ubuntu
+    - name: install apt packages
+      apt: name={{ item }} state=latest
+      with_items:
+        - build-essential
+        - git
+        - vim
+        - tmux
+        - docker.io
+        - libfontconfig1-dev
+      when: "ansible_os_family == 'Debian'"
+
+  roles:
+    - { role: rvm_io.rvm1-ruby, tags: ruby, become: yes } # Ruby
+    - nodesource.node # Node.js
