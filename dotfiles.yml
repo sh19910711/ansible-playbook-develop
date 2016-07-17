@@ -1,0 +1,19 @@
+- hosts: all
+  tasks:
+    # bash
+    - git: repo=https://github.com/sh19910711/.bash.d depth=1 dest=~/.bash.d recursive=yes force=yes
+    - shell: grep -q -F "source ~/.bash.d/source_me.bash" ~/.bashrc || echo "source ~/.bash.d/source_me.bash" >> ~/.bashrc
+      args:
+        creates: ~/.bashrc
+
+    # tmux
+    - git: repo=https://github.com/sh19910711/.tmux.d depth=1 dest=~/.tmux.d recursive=yes force=yes
+    - shell: grep -q -F "source ~/.tmux.d/source.conf" ~/.tmux.conf || echo "source ~/.tmux.d/source.conf" >> ~/.tmux.conf
+      args:
+        creates: ~/.tmux.conf
+
+    # .vim.d
+    - git: repo=https://github.com/sh19910711/.vim.d depth=1 dest=~/.vim.d recursive=yes force=yes
+    - shell: grep -q -F "source ~/.vim.d/sourceme.vim" ~/.vimrc|| echo "source ~/.vim.d/sourceme.vim" >> ~/.vimrc
+      args:
+        creates: ~/.vimrc
