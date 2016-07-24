@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+
+  tasks:
+    - git: |
+        repo=https://github.com/ansible/ansible.git
+        recursive=yes
+        version=v2.1.0.0-1
+        dest=/usr/src/ansible
+
+    - shell: make install
+      args:
+        chdir: /usr/src/ansible
+
+    - apt: name=ansible state=absent
+      when: "ansible_os_family == 'Debian'"
