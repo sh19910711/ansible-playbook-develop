@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+
+  tasks:
+    - git: |
+        repo=https://github.com/vim/vim
+        depth=1
+        version=v7.4.2098
+        dest=/usr/src/vim
+
+    - shell: ./configure --prefix=/usr/local
+      args:
+        chdir: /usr/src/vim
+
+    - shell: make
+      args:
+        chdir: /usr/src/vim
+
+    - shell: make install
+      args:
+        chdir: /usr/src/vim
