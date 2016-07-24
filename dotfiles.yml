@@ -1,35 +1,24 @@
 - hosts: all
+
   tasks:
     # bash
-    - stat: path=~/.bash.d
-      register: repo
-    - shell: git clone --recursive --depth 1 https://github.com/sh19910711/.bash.d ~/.bash.d
-      when: repo.stat.isdir is not defined
+    - git: repo=https://github.com/sh19910711/.bash.d recursive=yes dest=~/.bash.d force=yes
     - shell: grep -q -F "source ~/.bash.d/source_me.bash" ~/.bashrc || echo "source ~/.bash.d/source_me.bash" >> ~/.bashrc
       args:
         creates: ~/.bashrc
 
     # tmux
-    - stat: path=~/.tmux.d
-      register: repo
-    - shell: git clone --recursive --depth 1 https://github.com/sh19910711/.tmux.d ~/.tmux.d
-      when: repo.stat.isdir is not defined
+    - git: repo=https://github.com/sh19910711/.tmux.d dest=~/.tmux.d recursive=yes force=yes
     - shell: grep -q -F "source ~/.tmux.d/source.conf" ~/.tmux.conf || echo "source ~/.tmux.d/source.conf" >> ~/.tmux.conf
       args:
         creates: ~/.tmux.conf
 
     # vim
-    - stat: path=~/.vim.d
-      register: repo
-    - shell: git clone --recursive --depth 1 https://github.com/sh19910711/.vim.d ~/.vim.d
-      when: repo.stat.isdir is not defined
+    - git: repo=https://github.com/sh19910711/.vim.d recursive=yes dest=~/.vim.d force=yes
     - shell: grep -q -F "source ~/.vim.d/sourceme.vim" ~/.vimrc || echo "source ~/.vim.d/sourceme.vim" >> ~/.vimrc
       args:
         creates: ~/.vimrc
 
     # git
-    - stat: path=~/.git.d
-      register: repo
-    - git: repo=https://github.com/sh19910711/.git.d depth=1 dest=~/.git.d force=yes
-      when: repo.stat.isdir is not defined
+    - git: repo=https://github.com/sh19910711/.git.d dest=~/.git.d force=yes recursive=yes
     - file: src=~/.git.d/.gitconfig dest=~/.gitconfig state=link
