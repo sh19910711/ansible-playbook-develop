@@ -1,12 +1,22 @@
+# update to the latest version of ansible
 - hosts: all
-  become: yes
+  sudo: yes
 
   tasks:
-    - git: |
-        repo=https://github.com/ansible/ansible.git
-        recursive=yes
-        version=v2.1.0.0-1
-        dest=/usr/src/ansible
+    - apt: name=python-pip state=latest
+      when: "ansible_os_family == 'Debian'"
+    - shell: pip install -U setuptools
+
+    - apt: name={{ item }} state=latest
+      with_items:
+        - python-dev
+        - python-setuptools
+      when: "ansible_os_family == 'Debian'"
+
+    - shell: git clone --depth 1 --single-branch --branch v2.1.0.0-1 https://github.com/ansible/ansible.git /usr/src/ansible
+    - shell: git submodule update --init
+      args:
+        chdir: /usr/src/ansible
 
     - shell: make install
       args:
