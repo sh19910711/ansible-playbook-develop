@@ -8,6 +8,14 @@
 
   tasks:
     # for debian / ubuntu
+    - shell: echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+      when: "ansible_os_family == 'Debian'"
+
+    - shell: apt-cache policy docker-engine
+      when: "ansible_os_family == 'Debian'"
+
+    - apt: name=docker.io state=removed
+
     - name: install apt packages
       apt: name={{ item }} state=latest
       with_items:
@@ -15,9 +23,9 @@
         - git
         - vim
         - tmux
-        - docker.io
         - libfontconfig1-dev
         - fish
+        - docker-engine
       when: "ansible_os_family == 'Debian'"
 
   roles:
