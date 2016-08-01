@@ -17,6 +17,7 @@
         - tmux
         - docker.io
         - libfontconfig1-dev
+        - fish
       when: "ansible_os_family == 'Debian'"
 
   roles:
