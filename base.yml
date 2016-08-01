@@ -14,7 +14,7 @@
     - shell: apt-cache policy docker-engine
       when: "ansible_os_family == 'Debian'"
 
-    - apt: name=docker.io state=removed
+    - apt: name=docker.io state=absent
 
     - name: install apt packages
       apt: name={{ item }} state=latest
