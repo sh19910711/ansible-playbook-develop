@@ -7,12 +7,6 @@
       when: "ansible_os_family == 'Debian'"
     - shell: pip install -U setuptools
 
-    - apt: name={{ item }} state=latest
-      with_items:
-        - python-dev
-        - python-setuptools
-      when: "ansible_os_family == 'Debian'"
-
     - shell: git clone --depth 1 --single-branch --branch v2.1.0.0-1 https://github.com/ansible/ansible.git /usr/src/ansible
     - shell: git submodule update --init
       args:
