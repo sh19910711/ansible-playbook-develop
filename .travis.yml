@@ -1,0 +1,16 @@
+language: python
+python: '2.7'
+sudo: required
+
+addons:
+  apt:
+    packages:
+      - ansible
+
+script:
+  - python --version
+  - ansible --version
+  - ansible-playbook -i hosts/local ansible.yml
+  - hash -r
+  - ansible --version
+  - ansible-playbook -i hosts/local cloud9.yml
