@@ -1,5 +1,5 @@
 # update old ansible
-- host: all
+- hosts: all
   sudo: yes
   roles:
     - ./roles/ansible

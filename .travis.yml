@@ -8,3 +8,5 @@ addons:
 script:
   - ansible --version
   - ansible-playbook -i hosts/local ansible.yml
+  - hash -r
+  - ansible --version
