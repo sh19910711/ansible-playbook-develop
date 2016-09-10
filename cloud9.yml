@@ -1,5 +1,7 @@
 - hosts: all
   become: yes
+  strategy: debug
   roles:
+    - ./roles/docker-compose
     - ./roles/docker-cli
     - ./roles/dotfiles
