@@ -6,16 +6,16 @@
 
 - name: Extract
   unarchive: |
-    src=https://storage.googleapis.com/golang/go1.6.2.linux-amd64.tar.gz
+    src=https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz
     dest=/usr/local/
     copy=no
   environment:
     LANG: C
     LC_ALL: C
-  when: go_version|failed or go_version.stdout | match("go1.6.3")
+  when: go_version|failed or go_version.stdout | match("go1.7.1")
 
 - name: Set up
   copy: |
     src=go.sh
     dest=/etc/profile.d/
-  when: go_version|failed or go_version.stdout | match("go1.6.3")
+  when: go_version|failed or go_version.stdout | match("go1.7.1")
