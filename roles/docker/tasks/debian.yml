@@ -16,7 +16,12 @@
 - shell: apt-cache policy docker-engine
   when: "ansible_os_family == 'Debian'"
 
+- name: apt update
+  apt: update_cache=yes
+
 - apt: name={{ item }} state=latest
   with_items:
     - docker-engine
   when: "ansible_os_family == 'Debian'"
+
+- service: name=docker state=running

@@ -1,0 +1,3 @@
+- copy: src=debian/etc/default/docker dest=/etc/default/docker
+
+- service: name=docker state=restarted
