@@ -1,21 +1,24 @@
 - name: Check
   command: /usr/local/go/bin/go version
   ignore_errors: yes
-  register: go_version
-  changed_when: false
+  register: go_current_version
+
+- name: Remove Current
+  file: path=/usr/local/go state=absent
+  when: (go_current_version|succeeded) and (not go_current_version.stdout|match(go_version))
 
 - name: Extract
   unarchive: |
-    src=https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz
+    src=https://storage.googleapis.com/golang/go{{ go_version }}.linux-amd64.tar.gz
     dest=/usr/local/
     copy=no
   environment:
     LANG: C
     LC_ALL: C
-  when: go_version|failed or go_version.stdout | match("go1.7.1")
+  when: (go_current_version|failed) or (not go_current_version.stdout|match(go_version))
 
-- name: Set up
+- name: Setup
   copy: |
     src=go.sh
     dest=/etc/profile.d/
-  when: go_version|failed or go_version.stdout | match("go1.7.1")
+  when: (go_current_version|failed) or (not go_current_version.stdout|match(go_version))
