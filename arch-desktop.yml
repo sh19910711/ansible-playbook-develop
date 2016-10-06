@@ -1,0 +1,9 @@
+- hosts: all
+  become: yes
+
+  vars:
+    go_version: 1.7.1
+
+  roles:
+    - ./roles/golang
+    - ./roles/dotfiles
