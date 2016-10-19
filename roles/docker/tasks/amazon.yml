@@ -1,0 +1,11 @@
+- name: yum update
+  yum: state=latest name=*
+
+- name: install docker
+  yum: state=latest name=docker
+
+- copy: src=../files/config dest=/etc/sysconfig/docker
+
+- name: start docker
+  service: name=docker state=restarted
+

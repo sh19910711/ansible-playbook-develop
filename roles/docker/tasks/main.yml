@@ -1,2 +1,5 @@
 - include: debian.yml
   when: "ansible_os_family == 'Debian'"
+
+- include: amazon.yml
+  when: "ansible_distribution == 'Amazon'"
