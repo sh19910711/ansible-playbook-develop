@@ -18,4 +18,4 @@
 
 # git
 - git: repo=https://github.com/sh19910711/.git.d dest=~/.git.d force=yes recursive=yes
-- file: src=~/.git.d/.gitconfig dest=~/.gitconfig state=link
+- file: src=~/.git.d/.gitconfig dest=~/.gitconfig state=link force=yes
