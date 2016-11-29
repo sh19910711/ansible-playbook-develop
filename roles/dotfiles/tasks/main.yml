@@ -12,7 +12,7 @@
 
 # vim
 - git: repo=https://github.com/sh19910711/.vim.d recursive=yes dest=~/.vim.d force=yes
-- shell: grep -q -F "source ~/.vim.d/sourceme.vim" ~/.vimrc || echo "source ~/.vim.d/sourceme.vim" >> ~/.vimrc
+- shell: grep -q -F "source ~/.vim.d/src.vim" ~/.vimrc || echo "source ~/.vim.d/sourceme.vim" >> ~/.vimrc
   args:
     creates: ~/.vimrc
 
