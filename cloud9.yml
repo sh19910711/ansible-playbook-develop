@@ -8,4 +8,7 @@
     - ./roles/docker-compose
     - ./roles/golang
     - ./roles/docker-cli
+
+- hosts: all
+  roles:
     - ./roles/dotfiles
