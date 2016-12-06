@@ -61,3 +61,23 @@
     - ruby-user
   tasks:
     - shell: gem install bundler
+
+- hosts: all
+  become: yes
+  vars:
+    redis_version: 3.2.5
+  tags:
+    - server
+    - redis
+  tasks:
+    - yum: package={{item}} state=latest
+      with_items:
+        - readline-devel
+    - stat: path=/opt/redis-{{redis_version}}
+      register: redis_src
+    - shell: "curl -L http://download.redis.io/releases/redis-{{redis_version}}.tar.gz | tar -C /opt -zxf -"
+      when: not redis_src.stat.exists
+    - shell: make hiredis jemalloc linenoise lua geohash-int
+        chdir=/opt/redis-{{redis_version}}/deps
+    - shell: make && make install PREFIX=/usr/local
+        chdir=/opt/redis-{{redis_version}}
