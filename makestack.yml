@@ -106,4 +106,29 @@
     - server
     - postgres
   tasks:
+    - shell: 'echo "local all all trust" > /var/lib/pgsql9/data/pg_hba.conf'
     - service: name=postgresql state=restarted
+    - shell: pip install psycopg2
+    - postgresql_db:
+        name: "development"
+        encoding: "UTF-8"
+      become: yes
+      become_user: postgres
+    - postgresql_user:
+        db: "development"
+        name: "root"
+        password: ""
+        priv: ALL
+        state: present
+      become: yes
+      become_user: postgres
+
+- hosts: all
+  become: yes
+  tags:
+    - server
+    - sqlite3
+  tasks:
+    - yum: package={{item}} state=latest
+      with_items:
+        - sqlite-devel
