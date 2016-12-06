@@ -1,7 +1,7 @@
 - hosts: all
   become: yes
   tags:
-    - always
+    - build
   tasks:
     - shell: "echo 'Defaults env_keep += \"PATH\"' > /etc/sudoers.d/env_keep"
     - shell: "echo 'Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/local/bin:/usr/bin' > /etc/sudoers.d/secure_path"
@@ -81,3 +81,29 @@
         chdir=/opt/redis-{{redis_version}}/deps
     - shell: make && make install PREFIX=/usr/local
         chdir=/opt/redis-{{redis_version}}
+
+- hosts: all
+  become: yes
+  tags:
+    - server
+    - postgres
+  tasks:
+    - yum: package={{item}} state=latest
+      with_items:
+        - postgresql
+        - postgresql-devel
+- hosts: all
+  become: yes
+  tags:
+    - server
+    - postgres-init
+  tasks:
+    - service: name=postgresql state=stopped
+    - shell: service postgresql initdb
+- hosts: all
+  become: yes
+  tags:
+    - server
+    - postgres
+  tasks:
+    - service: name=postgresql state=restarted
